@@ -1,5 +1,29 @@
 type User {
 	id: ID!
 	username: String!
-	password: String
+	password: String!
+}
+
+input AuthData {
+	username: String!
+	password: String!
+}
+
+type SigninPayload {
+	token: String
+	user: User
+}
+
+type Query {
+	allUsers: [User]
+}
+
+type Mutation {
+	createUser(authProvider: AuthData!): User
+	signinUser(auth: AuthData) : SigninPayload
+}
+
+schema {
+	query: Query
+	mutation: Mutation
 }
