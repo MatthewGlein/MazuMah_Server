@@ -17,4 +17,8 @@ public class Query implements GraphQLRootResolver {
 	public List<User> allUsers() {
 		return userRepository.getAllUsers();
 	}
+	
+	public User getUserById(String id) {
+		return userRepository.findById(id);
+	}
 }
