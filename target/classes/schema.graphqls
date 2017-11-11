@@ -16,6 +16,7 @@ type SigninPayload {
 
 type Query {
 	allUsers: [User]
+	getUserById(id: String!): User
 }
 
 type Mutation {
