@@ -14,10 +14,10 @@ import models.User;
 
 public class UserRepository {
 	public UserRepository() {
-		
+
 	}
 	private Connection connect() {
-		String url = "jdbc:mysql://localhost/MazuMah?user=root&password=root";
+		String url = "jdbc:mysql://localhost/Mazumah?user=root&password=beastmode123";
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(url);
@@ -26,13 +26,13 @@ public class UserRepository {
 		}
 		return connection;
 	}
-	
+
 	public User findByUsername(String username) {
 		User user = null;
 		String sql = "SELECT * FROM User WHERE username='" + username + "'";
 		try (Connection conn = this.connect();
 	             Statement stmt  = conn.createStatement();
-	             ResultSet rs = stmt.executeQuery(sql)){  
+	             ResultSet rs = stmt.executeQuery(sql)){
 	            // loop through the result set
 	            while (rs.next()) {
 	            		String userId = rs.getString("id");
@@ -44,13 +44,13 @@ public class UserRepository {
 	        }
 		return user;
 	}
-	
+
 	public User findById(String id) {
 		User user = null;
 		String sql = "SELECT * FROM User WHERE id='" + id + "'";
 		try (Connection conn = this.connect();
 	             Statement stmt  = conn.createStatement();
-	             ResultSet rs    = stmt.executeQuery(sql)){  
+	             ResultSet rs    = stmt.executeQuery(sql)){
 	            // loop through the result set
 	            while (rs.next()) {
 	            		String userId = rs.getString("id");
@@ -66,10 +66,10 @@ public class UserRepository {
 
 	public List<User> getAllUsers() {
 		List<User> allUsers = new ArrayList<>();
-		String sql = "SELECT * FROM User";	        
+		String sql = "SELECT * FROM User";
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql)){  
+             ResultSet rs    = stmt.executeQuery(sql)){
             // loop through the result set
             while (rs.next()) {
             		String userId = rs.getString("id");
@@ -82,7 +82,7 @@ public class UserRepository {
         }
 		return allUsers;
 	}
-	
+
 	public void saveUser(User user) {
 		String sql = "INSERT INTO User(username,password) VALUES(?,?)";
         try (Connection connection = this.connect();
@@ -94,5 +94,5 @@ public class UserRepository {
             System.out.println(e.getMessage());
         }
 	}
-	
+
 }

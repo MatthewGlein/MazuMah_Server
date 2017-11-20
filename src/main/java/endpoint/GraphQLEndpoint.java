@@ -1,4 +1,5 @@
 package endpoint;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +34,17 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 	
 	@Override
 	protected GraphQLContext createContext(Optional<HttpServletRequest> request, Optional<HttpServletResponse> response) {
+		response.get().addHeader("Access-Control-Allow-Origin","*");
+		response.get().addHeader("Access-Control-Allow-Methods","GET,POST");
+		response.get().addHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+		response.get().addHeader("Access-Control-Allow-Credentials","true");
+
+		
+//		Collection<String> c = response.get().getHeaders("Access-Control-Allow-Origin");
+//		for (String s : c) {
+//			System.out.println(s);
+//		}
+		System.out.println(response.get());
 		User user = request
 				.map(req -> req.getHeader("Authorization"))
 				.filter(id -> !id.isEmpty())
@@ -40,6 +52,15 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 				.map(userRepository::findById)
 				.orElse(null);
 		return new AuthContext(user, request, response);
+	}
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+		setAccessControlHeaders(resp);
+	}
+	
+	private void setAccessControlHeaders(HttpServletResponse resp) {
+		resp.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 	}
 	
 	@Override
@@ -53,6 +74,8 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 	public GraphQLEndpoint() {
 		super(buildSchema());
 	}
+    
+	
 	
 	private static GraphQLSchema buildSchema() {
 		return SchemaParser.newParser()

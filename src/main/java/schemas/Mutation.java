@@ -16,6 +16,7 @@ public class Mutation implements GraphQLRootResolver {
 	}
 	
 	public User createUser(AuthData auth) {
+		System.out.println("HELLO WORLD\n");
 		User newUser = new User(auth.getUsername(), auth.getPassword());
 		userRepository.saveUser(newUser);
 		return newUser;
